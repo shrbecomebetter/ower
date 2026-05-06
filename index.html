@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陈璐颖 — Luying Chen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500&family=Noto+Serif+SC:wght@200;300;400;500;600;700;900&family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --bg: #FAF7F4;
+            --bg-alt: #F4EFEA;
+            --text: #2A2A2A;
+            --text-soft: #4A4A4A;
+            --text-muted: #8A8A8A;
+            --accent: #C05C3C;
+            --accent-light: #D4734F;
+            --rose: #C27489;
+            --warm: #D4A574;
+            --line: #E5DED6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { overflow-x: hidden; cursor: none; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            cursor: none;
+        }
+
+        *, a, button, input { cursor: none; }
+
+        ::selection {
+            background: rgba(192, 92, 60, 0.15);
+            color: var(--accent);
+        }
+
+        /* ====== CURSOR — Diamond ====== */
+        .cursor-glow {
+            position: fixed;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            background: radial-gradient(circle, rgba(192, 92, 60, 0.045) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            will-change: left, top;
+        }
+
+        .cursor-shape {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%) rotate(45deg);
+            background: var(--accent);
+            transition: width 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+                        height 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+                        background 0.35s ease,
+                        border-radius 0.35s ease,
+                        transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+            will-change: left, top, transform;
+        }
+
+        .cursor-shape.is-hover {
+            width: 44px;
+            height: 44px;
+            background: transparent;
+            border: 1.5px solid var(--accent);
+            transform: translate(-50%, -50%) rotate(0deg);
+            border-radius: 50%;
+        }
+
+        .cursor-shape.is-photo {
+            width: 70px;
+            height: 70px;
+            background: rgba(192, 92, 60, 0.08);
+            border: 1.5px solid var(--accent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+
+        .cursor-shape.is-photo::after {
+            content: 'view';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+        }
+
+        /* ====== HERO ====== */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            position: relative;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 10vh 4vw 10vh 8vw;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .hero-name {
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 900;
+            font-size: clamp(4rem, 9vw, 7.5rem);
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            color: var(--text);
+        }
+
+        .hero-name-en {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.3rem, 2.5vw, 2rem);
+            font-weight: 500;
+            font-style: italic;
+            color: var(--accent);
+            margin-top: 0.4rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .hero-motto {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--text-soft);
+            letter-spacing: 0.15em;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-edu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 2.5rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--line);
+        }
+
+        .hero-edu-item {
+            font-size: 0.82rem;
+            color: var(--text-soft);
+            font-weight: 400;
+        }
+
+        .hero-edu-item strong {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            font-size: 0.76rem;
+            font-weight: 500;
+            padding: 0.5rem 1.1rem;
+            border: 1.2px solid rgba(44, 44, 44, 0.18);
+            border-radius: 100px;
+            color: var(--text-soft);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .tag::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--accent);
+            border-radius: 100px;
+            transform: scale(0);
+            transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: -1;
+        }
+
+        .tag:hover::before { transform: scale(1); }
+
+        .tag:hover {
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(192, 92, 60, 0.18);
+        }
+
+        /* Hero photo — single clean image */
+        .hero-right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8vh 5vw;
+        }
+
+        .hero-photo {
+            width: 100%;
+            height: 78vh;
+            max-height: 650px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.08);
+        }
+
+        .hero-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 15%;
+            transition: transform 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .hero-photo:hover img {
+            transform: scale(1.03);
+        }
+
+        .hero-photo .img-reveal {
+            position: absolute;
+            inset: 0;
+            background: var(--bg);
+            z-index: 2;
+            transform-origin: right;
+        }
+
+        .hero-meta {
+            position: absolute;
+            bottom: 3rem;
+            left: 8vw;
+            font-size: 0.63rem;
+            letter-spacing: 0.4em;
+            color: var(--text-muted);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 3rem;
+            right: 5vw;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.63rem;
+            letter-spacing: 0.25em;
+            color: var(--text-muted);
+        }
+
+        .scroll-line {
+            width: 50px;
+            height: 1px;
+            background: var(--line);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: var(--accent);
+            animation: scrollMove 2.5s ease-in-out infinite;
+        }
+
+        @keyframes scrollMove {
+            0% { left: -50%; }
+            100% { left: 100%; }
+        }
+
+        /* ====== ABOUT ====== */
+        .about {
+            padding: 14vh 8vw;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            margin-bottom: 4.5rem;
+        }
+
+        .section-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.85rem;
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .section-line { flex: 1; height: 1px; background: var(--line); }
+
+        .section-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6vw;
+            align-items: start;
+        }
+
+        .about-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+            font-weight: 500;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 2.5rem;
+        }
+
+        .about-bio {
+            font-size: 0.95rem;
+            line-height: 2.4;
+            color: var(--text-soft);
+            font-weight: 400;
+        }
+
+        .about-bio strong {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* Interactive text labels — with hover sparkle */
+        .spark-text {
+            position: relative;
+            display: inline-block;
+            font-weight: 500;
+            color: var(--text);
+            transition: color 0.3s ease;
+        }
+
+        .spark-text::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--rose));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .spark-text:hover::after {
+            transform: scaleX(1);
+        }
+
+        .spark-text:hover {
+            color: var(--accent);
+        }
+
+        /* Sparkle particles on hover */
+        .spark-text .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        /* Big emphasis label */
+        .bio-highlight {
+            display: inline-block;
+            font-weight: 600;
+            font-size: 1.05em;
+            color: var(--text);
+            position: relative;
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .bio-highlight::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -4px;
+            right: -4px;
+            height: 40%;
+            background: rgba(192, 92, 60, 0.1);
+            z-index: -1;
+            transition: height 0.3s ease, background 0.3s ease;
+        }
+
+        .bio-highlight:hover {
+            transform: translateY(-2px);
+        }
+
+        .bio-highlight:hover::before {
+            height: 100%;
+            background: rgba(192, 92, 60, 0.12);
+        }
+
+        .bio-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--accent);
+            text-decoration: none;
+            padding: 0.4rem 0;
+            position: relative;
+            transition: transform 0.3s ease, gap 0.3s ease;
+        }
+
+        .bio-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0.3rem;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .bio-link:hover::after { transform: scaleX(1); }
+        .bio-link:hover { gap: 0.6rem; }
+
+        .about-photos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1.3fr 1fr;
+            gap: 0.5rem;
+            height: 72vh;
+            min-height: 500px;
+        }
+
+        .about-photo {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .about-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .about-photo:hover img { transform: scale(1.04); }
+
+        .about-photo--tall { grid-row: span 2; }
+
+        /* ====== JOURNEY ====== */
+        .journey {
+            padding: 14vh 8vw;
+            background: var(--bg-alt);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .journey-blob {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .journey-blob--1 {
+            top: -10%;
+            right: -5%;
+            background: rgba(192, 92, 60, 0.06);
+        }
+
+        .journey-blob--2 {
+            bottom: -10%;
+            left: -8%;
+            background: rgba(194, 116, 137, 0.05);
+        }
+
+        .journey-intro {
+            max-width: 550px;
+            margin-bottom: 4.5rem;
+            position: relative;
+        }
+
+        .journey-intro h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+            font-weight: 500;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 0.8rem;
+        }
+
+        .journey-intro p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            font-weight: 400;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 780px;
+            padding-left: 3.5rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 1px;
+            background: var(--line);
+        }
+
+        .timeline-progress {
+            position: absolute;
+            left: 0; top: 0;
+            width: 1px;
+            height: 0%;
+            background: linear-gradient(to bottom, var(--accent), var(--rose));
+        }
+
+        .tl-item {
+            padding-bottom: 4rem;
+            position: relative;
+            transition: opacity 0.4s ease;
+        }
+
+        .tl-item:last-child { padding-bottom: 0; }
+
+        .tl-dot {
+            position: absolute;
+            left: -3.5rem;
+            top: 0.5rem;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--line);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .tl-item.is-active .tl-dot {
+            background: var(--accent);
+            box-shadow: 0 0 0 4px rgba(192, 92, 60, 0.1), 0 0 15px rgba(192, 92, 60, 0.12);
+            transform: scale(1.4);
+        }
+
+        .tl-time {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .tl-item.is-active .tl-time { color: var(--accent); }
+
+        .tl-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+            transition: transform 0.4s ease;
+        }
+
+        .tl-item.is-active .tl-title { transform: translateX(3px); }
+
+        .tl-subtitle {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .tl-desc {
+            font-size: 0.84rem;
+            color: var(--text-soft);
+            line-height: 1.9;
+            margin-bottom: 1.2rem;
+            font-weight: 300;
+            max-width: 540px;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .tl-item.is-active .tl-desc {
+            opacity: 1;
+            max-height: 250px;
+        }
+
+        .tl-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .tl-skill {
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 0.3rem 0.7rem;
+            border: 1px solid var(--line);
+            border-radius: 100px;
+            color: var(--text-muted);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .tl-item.is-active .tl-skill {
+            border-color: rgba(192, 92, 60, 0.3);
+            color: var(--accent);
+            background: rgba(192, 92, 60, 0.04);
+        }
+
+        /* ====== BOOKLIST ====== */
+        .booklist {
+            padding: 14vh 8vw;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .booklist-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6vw;
+            align-items: center;
+        }
+
+        .booklist-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+            font-weight: 500;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+        }
+
+        .booklist-desc {
+            font-size: 0.92rem;
+            line-height: 2.2;
+            color: var(--text-soft);
+            font-weight: 400;
+            max-width: 420px;
+            margin-bottom: 2.5rem;
+        }
+
+        .booklist-photos {
+            position: relative;
+            height: 400px;
+        }
+
+        .booklist-photo {
+            position: absolute;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .booklist-photo:hover {
+            transform: scale(1.03) rotate(0deg) !important;
+            z-index: 2;
+        }
+
+        .booklist-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .booklist-photo--1 {
+            width: 55%;
+            height: 80%;
+            top: 5%;
+            left: 5%;
+            transform: rotate(-2deg);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+        }
+
+        .booklist-photo--2 {
+            width: 50%;
+            height: 65%;
+            bottom: 0;
+            right: 5%;
+            transform: rotate(2deg);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+            border: 4px solid var(--bg);
+        }
+
+        /* ====== CONTACT ====== */
+        .contact {
+            padding: 14vh 8vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+            font-weight: 500;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-desc {
+            font-size: 0.95rem;
+            line-height: 2;
+            color: var(--text-soft);
+            max-width: 460px;
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+        }
+
+        .btn-magnetic {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 1rem 2.5rem;
+            background: var(--text);
+            color: var(--bg);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            border-radius: 100px;
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+                        box-shadow 0.4s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .btn-magnetic::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--accent);
+            border-radius: 100px;
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 0;
+        }
+
+        .btn-magnetic:hover::before { transform: translateY(0); }
+        .btn-magnetic:hover { box-shadow: 0 10px 40px rgba(192, 92, 60, 0.22); }
+        .btn-magnetic span { position: relative; z-index: 1; }
+
+        .contact-quote {
+            margin-top: 5rem;
+            max-width: 400px;
+            padding: 1.5rem 0 1.5rem 1.5rem;
+            border-left: 2px solid var(--line);
+            text-align: left;
+        }
+
+        .contact-quote p {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.92rem;
+            line-height: 2.2;
+            color: var(--text-soft);
+            font-weight: 300;
+        }
+
+        .contact-quote cite {
+            display: block;
+            margin-top: 0.8rem;
+            font-size: 0.72rem;
+            color: var(--accent);
+            font-style: normal;
+            letter-spacing: 0.1em;
+        }
+
+        .contact-cat {
+            position: absolute;
+            bottom: 4rem;
+            left: 5vw;
+            width: 125px;
+            height: 95px;
+            border-radius: 10px;
+            overflow: hidden;
+            opacity: 0.35;
+            transform: rotate(-4deg);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .contact-cat:hover {
+            opacity: 1;
+            transform: rotate(0deg) scale(1.12);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .contact-cat img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Cat widget */
+        .cat-widget {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            z-index: 999;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 3px solid var(--bg);
+        }
+
+        .cat-widget:hover {
+            width: 140px;
+            height: 140px;
+            border-radius: 14px;
+            transform: rotate(-3deg);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+
+        .cat-widget img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Footer */
+        .footer {
+            padding: 2.5rem 8vw;
+            text-align: center;
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            letter-spacing: 0.2em;
+            border-top: 1px solid var(--line);
+        }
+
+        /* ====== RESPONSIVE ====== */
+        @media (max-width: 900px) {
+            html, body, *, a, button { cursor: auto; }
+            .cursor-glow, .cursor-shape { display: none; }
+
+            .hero {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .hero-left { padding: 8vh 6vw 5vh; order: 2; }
+            .hero-right { order: 1; padding: 4vh 6vw 0; }
+            .hero-photo { height: 50vh; max-height: 420px; }
+            .hero-meta, .hero-scroll { display: none; }
+
+            .about-grid { grid-template-columns: 1fr; gap: 4rem; }
+            .about-photos { height: 50vh; min-height: 340px; order: -1; }
+
+            .timeline { padding-left: 2.2rem; }
+            .tl-dot { left: -2.2rem; }
+            .tl-item .tl-desc { opacity: 1; max-height: 250px; }
+
+            .contact-cat { position: relative; bottom: auto; left: auto; margin-top: 3rem; opacity: 0.6; }
+
+            .booklist-layout { grid-template-columns: 1fr; gap: 3rem; }
+            .booklist-photos { height: 280px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name { font-size: 3.2rem; }
+            .hero-photo { height: 42vh; }
+            .about-photos { height: 38vh; min-height: 260px; }
+            .tl-title { font-size: 1.05rem; }
+            .cat-widget { width: 42px; height: 42px; }
+            .cat-widget:hover { width: 100px; height: 100px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cursor -->
+    <div class="cursor-glow"></div>
+    <div class="cursor-shape"></div>
+
+    <!-- Cat Widget -->
+    <div class="cat-widget">
+        <img src="07ee0852e356cc932515dc23aa2b418d.jpg" alt="猫咪">
+    </div>
+
+    <!-- ====== HERO ====== -->
+    <section class="hero">
+        <div class="hero-left">
+            <p class="hero-eyebrow">Portfolio · 2026</p>
+            <h1 class="hero-name">陈璐颖</h1>
+            <p class="hero-name-en">Luying Chen</p>
+            <p class="hero-motto">保持好奇，保持在场</p>
+
+            <div class="hero-edu">
+                <div class="hero-edu-item"><strong>北京师范大学</strong> 教育社会学 硕士</div>
+                <div class="hero-edu-item"><strong>南京师范大学</strong> 教育学 学士</div>
+            </div>
+
+            <div class="hero-tags">
+                <span class="tag">交易运营</span>
+                <span class="tag">短视频研究</span>
+                <span class="tag">教育学硕士</span>
+                <span class="tag">美食探索者</span>
+                <span class="tag">Base 北京</span>
+            </div>
+        </div>
+        <div class="hero-right">
+            <div class="hero-photo">
+                <div class="img-reveal"></div>
+                <img src="273f79f2d1e60aa92d8760bb852242e8.jpg" alt="陈璐颖">
+            </div>
+        </div>
+        <span class="hero-meta">BEIJING · 2026</span>
+        <div class="hero-scroll">
+            SCROLL
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- ====== ABOUT ====== -->
+    <section class="about" id="about">
+        <div class="section-header">
+            <span class="section-num">01</span>
+            <div class="section-line"></div>
+            <span class="section-label">About Me</span>
+        </div>
+        <div class="about-grid">
+            <div class="about-content">
+                <h2 class="about-title">Nice to meet you,<br>这里是我的小宇宙</h2>
+                <div class="about-bio">
+                    <p>
+                        01年生的狮子座，ESTJ，在北京生活的第三年。
+                    </p>
+                    <br>
+                    <p>
+                        <strong>北京师范大学</strong>教育社会学硕士，目前在<strong>懂车帝</strong>做交易运营。
+                    </p>
+                    <br>
+                    <p>
+                        <span class="bio-highlight">互联网深度冲浪用户</span> 🏄‍♀️<br>
+                        <span style="font-size: 0.84em; color: var(--text-muted);">小红书年度时长 300h+ · 抖音 200h+</span>
+                    </p>
+                    <br>
+                    <p>
+                        超级爱吃的 <span class="spark-text">美食探索者</span> 🍜（饭缘超级好！）
+                    </p>
+                    <br>
+                    <p>
+                        <span class="spark-text">平面模特</span> 📷 · <span class="spark-text">赛博算命爱好者</span> 🔮
+                    </p>
+                    <br>
+                    <p>
+                        <a href="#booklist" class="bio-link">📖 我的书单 →</a>
+                    </p>
+                </div>
+            </div>
+            <div class="about-photos">
+                <div class="about-photo about-photo--tall">
+                    <img src="a631ae03c164cea725be78e86ce711f4.jpg" alt="" loading="lazy">
+                </div>
+                <div class="about-photo">
+                    <img src="378095d5f41bee6274f04d4e7dbbb680.jpg" alt="" loading="lazy">
+                </div>
+                <div class="about-photo">
+                    <img src="fc107e8b22c0337cf4a2a5907a994569.jpg" alt="" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== JOURNEY ====== -->
+    <section class="journey" id="journey">
+        <div class="journey-blob journey-blob--1"></div>
+        <div class="journey-blob journey-blob--2"></div>
+
+        <div class="section-header">
+            <span class="section-num">02</span>
+            <div class="section-line"></div>
+            <span class="section-label">My Journey</span>
+        </div>
+
+        <div class="journey-intro">
+            <h2>每一站，<br>都在积累新的视角</h2>
+            <p>从教育到互联网，从内容到产品，跨界是我的常态。</p>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-progress"></div>
+
+            <div class="tl-item is-active">
+                <div class="tl-dot"></div>
+                <div class="tl-time">2025.10 — 至今</div>
+                <div class="tl-title">懂车帝</div>
+                <div class="tl-subtitle">交易运营</div>
+                <div class="tl-desc">
+                    梳理电商的转化链路，对齐各端资源诉求与用户场景。推动短视频规模化产出，每日输出100+定制化脚本及视频，实现矩阵号快速增长。提炼"场景化痛点-产品价值-转化引导"核心模型，推动内容与交易链路衔接。
+                </div>
+                <div class="tl-skills">
+                    <span class="tl-skill">电商转化链路</span>
+                    <span class="tl-skill">短视频规模化</span>
+                    <span class="tl-skill">矩阵号增长</span>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-time">2025.05 — 2025.09</div>
+                <div class="tl-title">新浪微博 · 大V运营部</div>
+                <div class="tl-subtitle">产品运营</div>
+                <div class="tl-desc">
+                    负责用户运营与创作者生态建设，优化广告共享计划从入驻到结算的全链路SOP。搭建并升级用户自助服务接口，持续收集用户反馈并推动产品体验迭代，协同多方推进结算功能创新与上线。
+                </div>
+                <div class="tl-skills">
+                    <span class="tl-skill">用户运营</span>
+                    <span class="tl-skill">产品SOP</span>
+                    <span class="tl-skill">自助服务搭建</span>
+                    <span class="tl-skill">体验迭代</span>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-time">2024.07 — 2024.10</div>
+                <div class="tl-title">教育科学出版社 · 教师教育编辑部</div>
+                <div class="tl-subtitle">内容运营</div>
+                <div class="tl-desc">
+                    策划并执行书籍共读项目，制作海报与宣发素材，推动内容在流媒体平台的传播与营销，助力新书发布预热及销售转化。
+                </div>
+                <div class="tl-skills">
+                    <span class="tl-skill">共读项目策划</span>
+                    <span class="tl-skill">视觉素材制作</span>
+                    <span class="tl-skill">流媒体营销</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== BOOKLIST ====== -->
+    <section class="booklist" id="booklist">
+        <div class="section-header">
+            <span class="section-num">03</span>
+            <div class="section-line"></div>
+            <span class="section-label">Reading</span>
+        </div>
+        <div class="booklist-layout">
+            <div class="booklist-content">
+                <h2 class="booklist-title">我的书单</h2>
+                <p class="booklist-desc">
+                    阅读是我理解世界的方式。这里记录了那些影响过我思考的书——有哲学、社会学、商业化知识、技能性的知识。如果这些书单能够帮助到你，非常乐意分享。
+                </p>
+                <a href="https://dcar.feishu.cn/wiki/O34ww9psyiLr56kFycIcwUpEn9e" target="_blank" rel="noopener" class="btn-magnetic" data-magnetic>
+                    <span>📖 &nbsp;查看我的书单</span>
+                </a>
+            </div>
+            <div class="booklist-photos">
+                <div class="booklist-photo booklist-photo--1">
+                    <img src="77c3ae12ba3e7b42dc6de3e9cb60dcc3.jpg" alt="" loading="lazy">
+                </div>
+                <div class="booklist-photo booklist-photo--2">
+                    <img src="093d2da483061c8bb71f24be9e8a27cc.jpg" alt="" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== CONTACT ====== -->
+    <section class="contact" id="contact">
+        <div class="section-header" style="width: 100%;">
+            <span class="section-num">04</span>
+            <div class="section-line"></div>
+            <span class="section-label">Let's Talk</span>
+        </div>
+        <h2>来找我聊天吧</h2>
+        <p class="contact-desc">
+            如果你想和我聊一聊商业化、产品、用户，<br>
+            甚至是教育，欢迎飞书联系我。
+        </p>
+        <a href="#" class="btn-magnetic" data-magnetic>
+            <span>✉️ &nbsp;飞书找我</span>
+        </a>
+        <blockquote class="contact-quote">
+            <p>你我生来，不是为与他人争奇斗艳，<br>我生命的春天，我只想为自己装点。</p>
+            <cite>—— 《开花》</cite>
+        </blockquote>
+        <div class="contact-cat">
+            <img src="1115b5451012002c6d026e74fb629ea9.jpg" alt="猫咪" loading="lazy">
+        </div>
+    </section>
+
+    <footer class="footer">
+        © 2026 LUYING CHEN · CRAFTED WITH CURIOSITY
+    </footer>
+
+    <script>
+        // ====== CURSOR — Diamond shape ======
+        const cursorGlow = document.querySelector('.cursor-glow');
+        const cursorShape = document.querySelector('.cursor-shape');
+        let mx = 0, my = 0, sx = 0, sy = 0, gx = 0, gy = 0;
+
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX;
+            my = e.clientY;
+        });
+
+        function tick() {
+            sx += (mx - sx) * 0.18;
+            sy += (my - sy) * 0.18;
+            cursorShape.style.left = sx + 'px';
+            cursorShape.style.top = sy + 'px';
+
+            gx += (mx - gx) * 0.06;
+            gy += (my - gy) * 0.06;
+            cursorGlow.style.left = gx + 'px';
+            cursorGlow.style.top = gy + 'px';
+
+            requestAnimationFrame(tick);
+        }
+        tick();
+
+        // Cursor hover states
+        document.querySelectorAll('a, .tag, .btn-magnetic, .cat-widget, .tl-item, .spark-text, .bio-highlight, .bio-link, .booklist-photo').forEach(el => {
+            el.addEventListener('mouseenter', () => cursorShape.classList.add('is-hover'));
+            el.addEventListener('mouseleave', () => cursorShape.classList.remove('is-hover'));
+        });
+
+        document.querySelectorAll('.about-photo, .hero-photo').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorShape.classList.add('is-photo');
+                cursorShape.classList.remove('is-hover');
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorShape.classList.remove('is-photo');
+            });
+        });
+
+        // ====== SPARKLE EFFECT on .spark-text ======
+        document.querySelectorAll('.spark-text').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                for (let i = 0; i < 6; i++) {
+                    const spark = document.createElement('span');
+                    spark.classList.add('sparkle');
+                    spark.style.left = Math.random() * 100 + '%';
+                    spark.style.top = Math.random() * 100 + '%';
+                    el.appendChild(spark);
+
+                    gsap.fromTo(spark,
+                        { opacity: 1, scale: 0 },
+                        {
+                            opacity: 0,
+                            scale: 1,
+                            x: (Math.random() - 0.5) * 40,
+                            y: (Math.random() - 0.5) * 30 - 10,
+                            duration: 0.6 + Math.random() * 0.3,
+                            ease: 'power2.out',
+                            onComplete: () => spark.remove()
+                        }
+                    );
+                }
+            });
+        });
+
+        // ====== MAGNETIC BUTTON ======
+        document.querySelectorAll('[data-magnetic]').forEach(btn => {
+            btn.addEventListener('mousemove', e => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = '';
+            });
+        });
+
+        // ====== GSAP ANIMATIONS ======
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero entrance
+        const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+        heroTl
+            .from('.hero-eyebrow', { y: 20, opacity: 0, duration: 0.8, delay: 0.2 })
+            .from('.hero-name', { y: 50, opacity: 0, duration: 1.1 }, '-=0.5')
+            .from('.hero-name-en', { y: 25, opacity: 0, duration: 0.8 }, '-=0.6')
+            .from('.hero-motto', { y: 20, opacity: 0, duration: 0.7 }, '-=0.5')
+            .from('.hero-edu', { y: 15, opacity: 0, duration: 0.7 }, '-=0.4')
+            .from('.tag', { y: 12, opacity: 0, duration: 0.4, stagger: 0.06 }, '-=0.3')
+            .from('.hero-meta', { opacity: 0, duration: 0.6 }, '-=0.5')
+            .from('.hero-scroll', { opacity: 0, duration: 0.6 }, '-=0.4');
+
+        // Photo curtain reveal
+        gsap.to('.hero-photo .img-reveal', {
+            scaleX: 0,
+            transformOrigin: 'right',
+            duration: 1.4,
+            ease: 'power4.inOut',
+            delay: 0.4
+        });
+
+        // Parallax
+        gsap.to('.hero-photo img', {
+            y: 40,
+            ease: 'none',
+            scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1.5 }
+        });
+
+        // About
+        gsap.from('.about .section-header', {
+            opacity: 0, y: 20, duration: 0.8,
+            scrollTrigger: { trigger: '.about', start: 'top 80%' }
+        });
+
+        gsap.from('.about-title', {
+            opacity: 0, y: 35, duration: 1,
+            scrollTrigger: { trigger: '.about-title', start: 'top 80%' }
+        });
+
+        gsap.from('.about-bio', {
+            opacity: 0, y: 25, duration: 0.8, delay: 0.1,
+            scrollTrigger: { trigger: '.about-bio', start: 'top 82%' }
+        });
+
+        gsap.from('.about-photo', {
+            opacity: 0, y: 40, scale: 0.96, duration: 0.9, stagger: 0.12,
+            scrollTrigger: { trigger: '.about-photos', start: 'top 78%' }
+        });
+
+        // Journey
+        gsap.from('.journey .section-header', {
+            opacity: 0, y: 20, duration: 0.8,
+            scrollTrigger: { trigger: '.journey', start: 'top 80%' }
+        });
+
+        gsap.from('.journey-intro h2', {
+            opacity: 0, y: 35, duration: 1,
+            scrollTrigger: { trigger: '.journey-intro', start: 'top 78%' }
+        });
+
+        gsap.from('.journey-intro p', {
+            opacity: 0, y: 18, duration: 0.7, delay: 0.1,
+            scrollTrigger: { trigger: '.journey-intro', start: 'top 78%' }
+        });
+
+        document.querySelectorAll('.tl-item').forEach((item, i) => {
+            gsap.from(item, {
+                opacity: 0, x: -25, duration: 0.7, delay: i * 0.08,
+                scrollTrigger: { trigger: item, start: 'top 82%' }
+            });
+        });
+
+        gsap.to('.timeline-progress', {
+            height: '100%',
+            ease: 'none',
+            scrollTrigger: { trigger: '.timeline', start: 'top 70%', end: 'bottom 60%', scrub: 1 }
+        });
+
+        // Booklist
+        gsap.from('.booklist .section-header', {
+            opacity: 0, y: 20, duration: 0.8,
+            scrollTrigger: { trigger: '.booklist', start: 'top 80%' }
+        });
+
+        gsap.from('.booklist-title', {
+            opacity: 0, y: 30, duration: 0.9,
+            scrollTrigger: { trigger: '.booklist-title', start: 'top 80%' }
+        });
+
+        gsap.from('.booklist-desc', {
+            opacity: 0, y: 20, duration: 0.7, delay: 0.1,
+            scrollTrigger: { trigger: '.booklist-desc', start: 'top 82%' }
+        });
+
+        gsap.from('.booklist-photo', {
+            opacity: 0, y: 30, scale: 0.95, duration: 0.8, stagger: 0.15,
+            scrollTrigger: { trigger: '.booklist-photos', start: 'top 80%' }
+        });
+
+        // Contact
+        gsap.from('.contact h2', {
+            opacity: 0, y: 30, duration: 0.8,
+            scrollTrigger: { trigger: '.contact h2', start: 'top 80%' }
+        });
+
+        gsap.from('.contact-desc', {
+            opacity: 0, y: 18, duration: 0.7, delay: 0.1,
+            scrollTrigger: { trigger: '.contact-desc', start: 'top 82%' }
+        });
+
+        gsap.from('.btn-magnetic', {
+            opacity: 0, y: 15, duration: 0.6, delay: 0.15,
+            scrollTrigger: { trigger: '.btn-magnetic', start: 'top 85%' }
+        });
+
+        gsap.from('.contact-quote', {
+            opacity: 0, y: 20, duration: 0.8,
+            scrollTrigger: { trigger: '.contact-quote', start: 'top 88%' }
+        });
+
+        // Blobs parallax
+        gsap.to('.journey-blob--1', {
+            y: -50, x: 15,
+            scrollTrigger: { trigger: '.journey', start: 'top bottom', end: 'bottom top', scrub: 2 }
+        });
+
+        gsap.to('.journey-blob--2', {
+            y: 35, x: -20,
+            scrollTrigger: { trigger: '.journey', start: 'top bottom', end: 'bottom top', scrub: 2 }
+        });
+
+        // ====== TIMELINE INTERACTION ======
+        const tlItems = document.querySelectorAll('.tl-item');
+        tlItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                tlItems.forEach(i => i.classList.remove('is-active'));
+                item.classList.add('is-active');
+            });
+        });
+    </script>
+</body>
+</html>
